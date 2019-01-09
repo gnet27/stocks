@@ -1,0 +1,329 @@
+
+
+<!DOCTYPE html>
+<html lang="en" >
+
+<head>
+
+  <meta charset="UTF-8">
+  <link rel="shortcut icon" type="image/x-icon" href="https://www.gnet27.ml/files/stocks.png" />
+  <link rel="mask-icon" type="" href="https://www.gnet27.ml/files/stocks.png" color="#111" />
+  <title>Gnet Stocks</title>
+  
+  
+  
+  
+      <style>
+      @import url("https://fonts.googleapis.com/css?family=Barlow+Semi+Condensed|Lato");
+html {
+  font-size: 10px;
+  height: 100vh;
+  margin: 0;
+  width: 100vw;
+}
+body {
+  margin: 0;
+  min-height: 100vh;
+  width: 100vw;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  background-color: #67e8c0;
+}
+section {
+  width: 100vw;
+  padding: 3rem 0 4rem;
+}
+section .info {
+  display: flex;
+  flex-direction: row;
+  margin: 0 12.5vw 1.25rem 12.5vw;
+}
+section .info p {
+  font-family: "Barlow Semi Condensed";
+  font-weight: 500;
+  background-color: #6ecde6;
+  color: #fff;
+  text-shadow: -1px 1px 2px rgba(0,0,0,0.05);
+  display: table;
+  box-shadow: 0 3px 6px rgba(0,0,0,0.1), 0 3px 6px rgba(0,0,0,0.13);
+  padding: 0.7rem 0.9rem;
+  border-radius: 2rem;
+  font-size: 1.5rem;
+  margin: 0;
+}
+section .info p:not(first-child) {
+  margin-left: 1rem;
+}
+section .info .search.wrapper {
+  box-shadow: 0 3px 6px rgba(0,0,0,0.1), 0 3px 6px rgba(0,0,0,0.13);
+  background-color: #fff;
+  border-radius: 2rem;
+  display: table;
+  padding: 0.7rem 0 0.7rem 0.9rem;
+  margin-left: auto;
+  transition: box-shadow 0.2s ease-in-out;
+}
+section .info .search.wrapper:focus-within {
+  box-shadow: 0 14px 28px rgba(0,0,0,0.25), 0 0px 10px rgba(0,0,0,0.22);
+}
+section .info .search.input {
+  border: 0;
+  font-size: 1.25rem;
+  font-family: Lato;
+  font-weight: 500;
+}
+section .info .search.input:focus {
+  outline: 0;
+}
+section .info .search.button {
+  border-width: 0 0 0 1px;
+  border-style: solid;
+  border-color: rgba(0,0,0,0.2);
+  background-color: transparent;
+  cursor: pointer;
+  width: 3rem;
+}
+section .info .search.button:focus {
+  outline: 0;
+}
+section .info .search.icon {
+  width: 1.2rem;
+  transform: translate(0, 0.1rem);
+}
+section article {
+  display: table;
+  margin: 0 auto;
+  position: relative;
+}
+section article #graph {
+  padding: 1rem 0;
+  background-color: #fff;
+  box-shadow: 0 10px 20px rgba(0,0,0,0.19), 0 0px 6px rgba(0,0,0,0.23);
+  width: 75vw;
+  height: 45rem;
+  border-radius: 0.5rem;
+}
+section article button {
+  border-radius: 100%;
+  position: absolute;
+  bottom: 1rem;
+  right: 0;
+  width: 2.5rem;
+  height: 2.5rem;
+  background-color: #37bbde;
+  opacity: 0.5;
+  border: 0;
+  right: 1rem;
+  cursor: pointer;
+  color: #fff;
+  font-weight: bold;
+  transition: background-color 0.2s ease-in-out, opacity 0.2s ease-in-out, box-shadow 0.1s ease-out;
+  font-size: 1.5rem;
+  opacity: 0.5;
+}
+section article button#zoomOut {
+  right: 4.25rem;
+}
+section article button:hover {
+  background-color: #50b596;
+  opacity: 1;
+}
+section article button:active {
+  box-shadow: 0 5px 20px rgba(0,0,0,0.19), 0 2px 6px rgba(0,0,0,0.23);
+}
+section article button:focus {
+  outline: 0;
+}
+section .timeIntervals {
+  display: table;
+  margin: 2rem auto 0;
+}
+section .timeIntervals label {
+  padding: 0.5rem 0.65rem;
+  color: #fff;
+  border-radius: 2rem;
+  font-size: 1.25rem;
+  font-family: Lato;
+  font-weight: 400;
+  cursor: pointer;
+  transition: background-color 0.25s ease-in-out, color 0.25s ease-in-out;
+}
+section .timeIntervals label:not(first-child) {
+  margin-left: 1rem;
+}
+section .timeIntervals input[type='radio'] {
+  display: none;
+}
+section .timeIntervals input[type='radio']:checked + label {
+  background-color: #fff;
+  color: #67e8c0;
+}
+.path,
+.line {
+  fill: none;
+  stroke: #37bbde;
+  stroke-width: 1px;
+}
+.x.axis path {
+  display: none;
+}
+
+    </style>
+
+  
+  
+  
+  
+
+</head>
+
+<body translate="no" >
+
+  
+<section>
+  <div class="info">
+    <p id="symbol">SYMBL</p>
+    <p id="price">$00.00</p>
+    <div class="search wrapper">
+      <input class="search input" required="" placeholder="SYMBL" id="search"/>
+      <button class="search button" id="submitSearch"><img class="search icon" src="https://upload.wikimedia.org/wikipedia/commons/5/55/Magnifying_glass_icon.svg"/></button>
+    </div>
+  </div>
+  <article>
+    <svg id="graph"></svg>
+    <button id="zoomOut">–</button>
+    <button id="zoomIn">+</button>
+  </article>
+  <form class="timeIntervals">
+    <input type="radio" id="radio_1min" checked="true" name="timeInterval"/>
+    <label for="radio_1min">1min</label>
+    <input type="radio" id="radio_1day" name="timeInterval"/>
+    <label for="radio_1day">1day</label>
+    <input type="radio" id="radio_1week" name="timeInterval"/>
+    <label for="radio_1week">1week</label>
+    <input type="radio" id="radio_1month" name="timeInterval"/>
+    <label for="radio_1month">1month</label>
+  </form>
+</section>
+  
+  <script src='https://cdnjs.cloudflare.com/ajax/libs/d3/4.11.0/d3.min.js'></script>
+
+  
+
+    <script >
+      
+const apiURL = symbol => timeSeries => `https://www.alphavantage.co/query?apikey=0VSVAOBJFKVEPGR4&function=TIME_SERIES_${timeSeries}&interval=1min&symbol=${symbol}`,
+      parseTime = time => new Date( Date.parse( time ) ),
+      svg = d3.select( '#graph' ),
+      clearChildren = node => Array.from( node.children ).forEach( it => node.removeChild( it ) )
+
+let updating = false
+
+function drawGraph( data ) {
+  data = Array.from( data )
+  window.data = data
+  
+  let width = window.innerWidth * 0.75,
+      height = 450,
+      curData = data[ window.dataTimeSeries ]
+  
+  // format the data
+  highest = -Infinity
+  lowest = Infinity
+  curData = curData.map( d => {
+    d.Date = parseTime( d.Date )
+    d.Close = +d.Close
+    highest = highest < d.Close ? d.Close : highest
+    lowest = lowest > d.Close ? d.Close : lowest
+    return d
+  })
+  
+  let x = d3.scaleTime().range( [ 0, width ] ).domain( d3.extent( curData, d => d.Date ) ),
+      y = d3.scaleLinear().range( [ height, 0 ] ).domain( [ lowest-0.001, highest+0.001 ] ),
+      valueline = d3.line()
+                    .x( d => x( d.Date ) )
+                    .y( d => y( d.Close ) )
+  
+  clearChildren( graph )
+  
+  svg.append( 'g' )
+  
+  // Add the valueline path.
+  svg.append( 'path' )
+    .data( [ curData ] )
+    .attr( 'class', 'line' )
+    .attr( 'd', valueline )
+  
+  updating = false
+}
+
+timeSeriesName = timeSeries => {
+  switch ( timeSeries ) {
+    case 'INTRADAY':
+      return 'Time Series (1min)'
+    case 'DAILY':
+      return 'Time Series (Daily)'
+    case 'WEEKLY':
+      return 'Weekly Time Series'
+    case 'MONTHLY':
+      return 'Monthly Time Series'
+    default:
+      return undefined
+  }
+}
+
+getData = symbol => timeSeries => fetch( apiURL( symbol )( timeSeries ) ).then( r => r.json() ).then( json => Object.keys( json[ timeSeriesName( timeSeries ) ] ).map( key => ( { Date: key, Close: json[ timeSeriesName( timeSeries ) ][ key ][ '4. close' ] } ) ) )
+
+function searchAPI() {
+  if ( updating || search.value === '' )
+    return
+  updating = true
+  const get = getData( search.value )
+  let promises = [ get( 'INTRADAY' ), get( 'DAILY' ), get( 'WEEKLY' ), get( 'MONTHLY' ) ]
+  Promise.all( promises ).then( data => {
+    symbol.innerText = search.value
+    search.value = ''
+    price.innerText = '$' + data[ 0 ][ data[ 0 ].length - 1 ].Close
+    drawGraph( data )
+  })
+}
+
+submitSearch.addEventListener( 'click', event => event.target.blur() | searchAPI() )
+search.addEventListener( 'keypress', event => {
+  if ( event.key === 'Enter' ) {
+    event.target.blur()
+    searchAPI()
+  }
+})
+
+window.addEventListener( 'resize', () => {
+  if ( window.data )
+    drawGraph( window.data )
+})
+
+window.dataTimeSeries = 0
+
+let line = [ { Date: '2018-01-01 00:00:00', Close: 0 }, { Date: '2018-01-01 00:00:01', Close: 0 } ]
+drawGraph( [ line, line, line, line ] )
+
+let intervalButtons = [ radio_1min, radio_1day, radio_1week, radio_1month ]
+
+intervalButtons.forEach( ( el, index ) => el.addEventListener( 'change', () => {
+  if ( window.dataTimeSeries !== index ) {
+    window.dataTimeSeries = index
+    drawGraph( window.data )
+  }
+}))
+    </script>
+
+
+
+  
+  
+
+  <script src="https://static.codepen.io/assets/editor/live/css_reload-5619dc0905a68b2e6298901de54f73cefe4e079f65a75406858d92924b4938bf.js"></script>
+</body>
+
+</html>
+ 
